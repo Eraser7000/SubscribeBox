@@ -69,6 +69,20 @@
 				$ldapAuthInfo = ($ldapResult? $result : false);
 				return $ldapAuthInfo;
 		}
+		public static function isavailable()
+		{
+			$ds = ldap_connect(_ldapServer_,_ldapPort_);
+			$anon = @ldap_bind($ds);
+			if (!$anon) 
+			{
+				return false;
+			}
+			else 
+			{
+			    return true;
+			}
+			ldap_unbind($ds);
+		}
 		public static function getmail($username)
 		{
 			$connection = @ldap_connect(_ldapServer_,_ldapPort_) or die(ldap_error());

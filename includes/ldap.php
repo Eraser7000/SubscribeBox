@@ -175,6 +175,25 @@
 			$entries = ldap_get_entries($connection, $search);
 			return $entries[0]["cn"][0];
 		}
+		public static function ldapallusers()
+		{
+			$connection = @ldap_connect("ldapmaster.nhl.nl",380) or die(ldap_error());
+			if($connection)
+			{
+				ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
+				ldap_bind($connection);
+			}
+			else
+			{
+				die("error");
+			}
+
+			$dn = "ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,o=Noordelijke Hogeschool Leeuwarden,c=nl"; //ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,
+			$filter = "uid=*";
+			$search = ldap_search($connection, $dn, $filter);
+			$entries = ldap_get_entries($connection, $search);
+			return $entries;
+		}
 	}
 
 ?>

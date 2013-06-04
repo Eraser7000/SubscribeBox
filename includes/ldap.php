@@ -4,7 +4,7 @@
 	define('_ldapPort_',380);
 	define('_ldapDomains_','o=Noordelijke Hogeschool Leeuwarden,c=nl');
 	define('_ldapVersion_',3);
-
+	ini_set('MAX_EXECUTION_TIME', 1800);
 
 	//wanneer deze externe class wordt gebruikt, gebruik je de onderstaande include
 	//ini_set("include_path", ";c:/xampp/htdocs/includes"); //-.- slordige oplossing, maar codeigniter staat niet andere mogelijkheden toe
@@ -138,7 +138,7 @@
 			$entries = ldap_get_entries($connection, $search);
 			if(count($entries) == 1)
 			{
-				$dn = "ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten," . $master; //ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,
+				$dn = "ou=Techniek,ou=studenten," . $master; //ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,
 				$filter = "uid=" . $username;
 				$search = ldap_search($connection, $dn, $filter);
 				$entries = ldap_get_entries($connection, $search);
@@ -177,6 +177,7 @@
 		}
 		public static function ldapallusers()
 		{
+			set_time_limit(1200);
 			$connection = @ldap_connect("ldapmaster.nhl.nl",380) or die(ldap_error());
 			if($connection)
 			{
@@ -188,7 +189,7 @@
 				die("error");
 			}
 
-			$dn = "ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,o=Noordelijke Hogeschool Leeuwarden,c=nl"; //ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,
+			$dn = "ou=Techniek,ou=studenten,o=Noordelijke Hogeschool Leeuwarden,c=nl"; //ou=voltijd,ou=Informatica BA,ou=Techniek,ou=studenten,
 			$filter = "uid=*";
 			$search = ldap_search($connection, $dn, $filter);
 			$entries = ldap_get_entries($connection, $search);
